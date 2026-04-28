@@ -472,9 +472,9 @@
     <p class="text-xs italic mb-10" style="color:#5a6a6d;">40 nights is intentionally conservative. Try 60 nights to see what Graeme's share looks like at higher occupancy.</p>
 
     <!-- Scenario B -->
-    <h3 class="text-xl font-serif font-semibold mb-2" style="color:#0E3B43;">Scenario B: Graeme gives coastal life a go and decides it's not for him</h3>
+    <h3 class="text-xl font-serif font-semibold mb-2" style="color:#0E3B43;">Scenario B: Graeme lives upstairs</h3>
     <p class="text-sm leading-relaxed mb-6">
-      No hard feelings. The granny flat goes on a long-term residential lease at $350 per week; the same 40/40/20 split applies. The calculator below assumes only the granny flat is generating income in this scenario.
+      Graeme takes the main house and has family and friends come and go as they wish. The self-contained granny flat goes on a long-term residential lease. No Airbnb management, no blocked-out dates; just a reliable monthly income from a tenant downstairs.
     </p>
 
     <div class="rounded-2xl p-6 shadow-sm mb-3" style="background:#e8dcc8;">
@@ -528,6 +528,49 @@
       </div>
     </div>
     <p class="text-xs italic mb-10" style="color:#5a6a6d;">Set management to 0% if you are self-managing the tenancy.</p>
+
+    <!-- Scenario C -->
+    <h3 class="text-xl font-serif font-semibold mb-2" style="color:#0E3B43;">Scenario C: Graeme gives coastal life a go and decides it's not for him</h3>
+    <p class="text-sm leading-relaxed mb-6">
+      No hard feelings. Graeme moves on and both wings earn their keep. Upstairs runs as a short-stay holiday let (Scenario A inputs), the granny flat stays on a long-term lease (Scenario B inputs). The numbers below update automatically as you change either scenario above.
+    </p>
+
+    <div class="rounded-2xl p-6 shadow-sm mb-3" style="background:#e8dcc8;">
+      <div class="border-b pb-4 mb-4" style="border-color:rgba(14,59,67,0.2);">
+        <table class="w-full text-sm">
+          <tbody>
+            <tr class="border-b" style="border-color:rgba(14,59,67,0.12);">
+              <td class="py-2">Airbnb net (upstairs)</td>
+              <td class="py-2 text-right result-val" id="c-airbnb-line">$10,016</td>
+            </tr>
+            <tr class="border-b" style="border-color:rgba(14,59,67,0.12);">
+              <td class="py-2">Rental net (granny flat)</td>
+              <td class="py-2 text-right result-val" id="c-rental-line">$15,750</td>
+            </tr>
+            <tr>
+              <td class="py-2 font-semibold" style="color:#0E3B43;">Combined net annual income</td>
+              <td class="py-2 text-right font-bold text-lg result-val" id="c-net">$25,766</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="grid grid-cols-3 gap-3">
+        <div class="rounded-xl p-4 text-center" style="background:#0E3B43;">
+          <div class="text-xs font-semibold mb-1" style="color:#C66B3D;">Graeme &middot; 40%</div>
+          <div class="font-bold text-white" id="c-graham">$10,306</div>
+        </div>
+        <div class="rounded-xl p-4 text-center" style="background:#0E3B43;">
+          <div class="text-xs font-semibold mb-1" style="color:#C66B3D;">Maintenance &middot; 40%</div>
+          <div class="font-bold text-white" id="c-maint">$10,306</div>
+        </div>
+        <div class="rounded-xl p-4 text-center" style="background:#0E3B43;">
+          <div class="text-xs font-semibold mb-1" style="color:#C66B3D;">Offset &middot; 20%</div>
+          <div class="font-bold text-white" id="c-offset">$5,153</div>
+        </div>
+      </div>
+    </div>
+    <p class="text-xs italic mb-10" style="color:#5a6a6d;">Scenario C reads directly from the inputs in A and B above. Change any number and all three scenarios update together.</p>
 
     <!-- Why fair -->
     <h3 class="text-xl font-serif font-semibold mb-6" style="color:#0E3B43;">Why this structure is fair to everyone</h3>
@@ -608,7 +651,7 @@
   <div class="max-w-2xl mx-auto text-center">
     <h2 class="text-3xl sm:text-4xl font-serif text-white mb-4">What now?</h2>
     <p class="text-lg text-white/75 mb-8 leading-relaxed">
-      Nick and Jodie-Lee-Lee will head down in a few weekends time to give you a proper video tour. But think about it &mdash; how good would it be?
+      Nick and Jodie-Lee will head down in a few weekends time to give you a proper video tour. But think about it &mdash; how good would it be?
     </p>
     <div class="flex flex-wrap justify-center gap-4 no-print">
       <a href="tel:0407226603"
@@ -668,6 +711,9 @@
   function fmt(n)    { return '$' + Math.round(n).toLocaleString('en-AU'); }
   function fmtN(n)   { return '-$' + Math.round(n).toLocaleString('en-AU'); }
 
+  var _aNet = 10016;
+  var _bNet = 15750;
+
   // Scenario A calculator
   function calcA() {
     var nightly = parseFloat(document.getElementById('a-nightly').value) || 0;
@@ -681,6 +727,7 @@
     var turnovers = stay > 0 ? Math.ceil(nights / stay) : 0;
     var cleaning  = turnovers * clean;
     var net       = Math.max(0, gross - airbnbFee - cleaning);
+    _aNet         = net;
 
     document.getElementById('a-gross').textContent       = fmt(gross);
     document.getElementById('a-airbnb-fee').textContent  = fmtN(airbnbFee);
@@ -690,6 +737,7 @@
     document.getElementById('a-graham').textContent      = fmt(net * 0.4);
     document.getElementById('a-maint').textContent       = fmt(net * 0.4);
     document.getElementById('a-offset').textContent      = fmt(net * 0.2);
+    calcC();
   }
 
   // Scenario B calculator
@@ -701,6 +749,7 @@
     var gross   = weeks * rent;
     var mgmtAmt = gross * (mgmt / 100);
     var net     = Math.max(0, gross - mgmtAmt);
+    _bNet       = net;
 
     document.getElementById('b-gross').textContent      = fmt(gross);
     document.getElementById('b-mgmt-total').textContent = fmtN(mgmtAmt);
@@ -708,6 +757,18 @@
     document.getElementById('b-graham').textContent     = fmt(net * 0.4);
     document.getElementById('b-maint').textContent      = fmt(net * 0.4);
     document.getElementById('b-offset').textContent     = fmt(net * 0.2);
+    calcC();
+  }
+
+  // Scenario C — combined, no inputs
+  function calcC() {
+    var combined = _aNet + _bNet;
+    document.getElementById('c-airbnb-line').textContent = fmt(_aNet);
+    document.getElementById('c-rental-line').textContent = fmt(_bNet);
+    document.getElementById('c-net').textContent         = fmt(combined);
+    document.getElementById('c-graham').textContent      = fmt(combined * 0.4);
+    document.getElementById('c-maint').textContent       = fmt(combined * 0.4);
+    document.getElementById('c-offset').textContent      = fmt(combined * 0.2);
   }
 
   // ===== CAROUSEL =====
