@@ -45,7 +45,7 @@
     .calc-input:focus { outline: 2px solid #C66B3D; outline-offset: 1px; border-color: #C66B3D; }
     .result-val { font-weight: 600; color: #0E3B43; }
     .hero-overlay {
-      background: linear-gradient(135deg, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.38) 50%, rgba(0,0,0,0.62) 100%);
+      background: linear-gradient(to top, rgba(0,0,0,0.30) 0px, rgba(0,0,0,0) 450px);
     }
     .lightbox-overlay {
       position: fixed; inset: 0; background: rgba(0,0,0,0.88);
@@ -79,10 +79,9 @@
 <body class="font-sans">
 
 <!-- ===== HERO ===== -->
-<section class="hero-section relative min-h-[92vh] flex flex-col justify-end"
-  style="background: url('assets/aerial.jpg') center center / cover no-repeat;">
+<section class="hero-section relative flex flex-col justify-end overflow-hidden" style="max-height:700px; min-height:500px; background: url('assets/hero-coastal.webp') center center / cover no-repeat;">
   <div class="hero-overlay absolute inset-0"></div>
-  <div class="relative z-10 max-w-4xl mx-auto px-6 pb-16 pt-32 w-full">
+  <div class="relative z-10 max-w-4xl mx-auto px-6 pb-12 pt-16 w-full" style="max-height:500px; overflow:hidden;">
     <p class="text-xs font-semibold tracking-widest mb-4" style="color:#C66B3D;">A FAMILY PROSPECTUS</p>
     <h1 class="text-4xl sm:text-5xl lg:text-6xl font-serif text-white leading-tight mb-4">
       A coastal home where<br>Dad has his own front door.
@@ -91,7 +90,7 @@
       86 Cresswick Parade, Dalmeny NSW &nbsp;&middot;&nbsp; 400 m to Yabbarra Beach &nbsp;&middot;&nbsp; 2 hours 50 minutes from Canberra.
     </p>
     <p class="text-base text-white/70 mb-10 max-w-2xl">
-      Two homes under one roof. Graham downstairs in the self-contained granny flat, family upstairs when we visit, and an income stream that pays its own way.
+      Two homes under one roof. Graeme downstairs in the self-contained granny flat, family upstairs when we visit, and an income stream that pays its own way.
     </p>
     <div class="flex flex-wrap gap-4 no-print">
       <button onclick="activateTab('lifestyle')"
@@ -181,7 +180,7 @@
       </div>
       <div>
         <h3 class="text-xl font-serif font-semibold mb-4" style="color:#0E3B43;">Downstairs, the self-contained wing</h3>
-        <p class="text-sm mb-3" style="color:#5a6a6d;">Where Graham would live, or a long-term tenant would.</p>
+        <p class="text-sm mb-3" style="color:#5a6a6d;">Where Graeme would live, or a long-term tenant would.</p>
         <ul class="space-y-2 text-sm leading-relaxed">
           <li class="flex gap-2"><span style="color:#C66B3D;">&mdash;</span> Studio living space, 4.0 x 8.6 m (bigger than most one-bedders)</li>
           <li class="flex gap-2"><span style="color:#C66B3D;">&mdash;</span> Kitchen and meals area, 3.5 x 3.0 m</li>
@@ -352,13 +351,13 @@
     <ul class="space-y-2 text-sm leading-relaxed mb-12">
       <li class="flex gap-2"><span style="color:#C66B3D;">&mdash;</span> Roughly 200 kilometres from Canberra. About 2 hours 50 minutes by car.</li>
       <li class="flex gap-2"><span style="color:#C66B3D;">&mdash;</span> Close enough that Nick and Jodie can drive down for a weekend without a production.</li>
-      <li class="flex gap-2"><span style="color:#C66B3D;">&mdash;</span> Close enough that Tony can come down to visit Graham, stay the weekend, and head home Sunday.</li>
+      <li class="flex gap-2"><span style="color:#C66B3D;">&mdash;</span> Close enough that Tony can come down to visit Graeme, stay the weekend, and head home Sunday.</li>
       <li class="flex gap-2"><span style="color:#C66B3D;">&mdash;</span> A real Sunday lunch at Dad's; an actual phrase that becomes possible.</li>
     </ul>
 
-    <!-- Graham's day -->
+    <!-- Graeme's day -->
     <div class="rounded-2xl p-8 mb-4 shadow-sm" style="background:#e8dcc8; border-left:4px solid #C66B3D;">
-      <h3 class="text-lg font-serif font-semibold mb-4" style="color:#0E3B43;">A day in the life (Graham edition)</h3>
+      <h3 class="text-lg font-serif font-semibold mb-4" style="color:#0E3B43;">A day in the life (Graeme edition)</h3>
       <p class="text-base italic leading-relaxed">
         6:30. Coffee on the alfresco. The kookaburras start up. Walk down to Yabbarra, ten minutes there, ten minutes back. Pick up the paper at the IGA. The hedges out the front need a trim before it gets warm; that's the morning sorted. Lunch at home. Afternoon for the spa, or the fishing club, or a slow drive into Narooma for a counter meal. Tony rings to say he's coming down Friday. The spare room is already made up.
       </p>
@@ -376,18 +375,18 @@
     <div class="grid sm:grid-cols-3 gap-4 mb-12">
       <div class="rounded-2xl p-6 shadow-sm text-center" style="background:#0E3B43;">
         <div class="text-3xl font-serif font-bold mb-3" style="color:#C66B3D;">1</div>
-        <h4 class="font-serif font-semibold text-white mb-2">Graham contributes the deposit.</h4>
+        <h4 class="font-serif font-semibold text-white mb-2">Graeme contributes the deposit.</h4>
         <p class="text-xs text-white/70 leading-relaxed">Sized to clear lender requirements. He owns equity in the property from day one.</p>
       </div>
       <div class="rounded-2xl p-6 shadow-sm text-center" style="background:#0E3B43;">
         <div class="text-3xl font-serif font-bold mb-3" style="color:#C66B3D;">2</div>
         <h4 class="font-serif font-semibold text-white mb-2">Nick &amp; Jodie carry the mortgage.</h4>
-        <p class="text-xs text-white/70 leading-relaxed">Repayments come out of their income. Graham is not on the hook for the monthly mortgage.</p>
+        <p class="text-xs text-white/70 leading-relaxed">Repayments come out of their income. Graeme is not on the hook for the monthly mortgage.</p>
       </div>
       <div class="rounded-2xl p-6 shadow-sm text-center" style="background:#0E3B43;">
         <div class="text-3xl font-serif font-bold mb-3" style="color:#C66B3D;">3</div>
         <h4 class="font-serif font-semibold text-white mb-2">Income split 40 / 40 / 20.</h4>
-        <p class="text-xs text-white/70 leading-relaxed">Forty per cent to Graham, forty per cent to a maintenance fund, twenty per cent to the mortgage offset.</p>
+        <p class="text-xs text-white/70 leading-relaxed">Forty per cent to Graeme, forty per cent to a maintenance fund, twenty per cent to the mortgage offset.</p>
       </div>
     </div>
 
@@ -395,7 +394,7 @@
     <h3 class="text-xl font-serif font-semibold mb-6" style="color:#0E3B43;">The 40 / 40 / 20 split, explained</h3>
     <div class="grid sm:grid-cols-3 gap-4 mb-12">
       <div class="rounded-2xl p-6 shadow-sm" style="background:#e8dcc8;">
-        <div class="text-lg font-serif font-bold mb-2" style="color:#0E3B43;">40% to Graham.</div>
+        <div class="text-lg font-serif font-bold mb-2" style="color:#0E3B43;">40% to Graeme.</div>
         <p class="text-sm leading-relaxed">His deposit is the reason this property exists. He gets a real, ongoing return on that capital, paid quarterly into his account.</p>
       </div>
       <div class="rounded-2xl p-6 shadow-sm" style="background:#e8dcc8;">
@@ -409,9 +408,9 @@
     </div>
 
     <!-- Scenario A -->
-    <h3 class="text-xl font-serif font-semibold mb-2" style="color:#0E3B43;">Scenario A: Graham lives downstairs</h3>
+    <h3 class="text-xl font-serif font-semibold mb-2" style="color:#0E3B43;">Scenario A: Graeme lives downstairs</h3>
     <p class="text-sm leading-relaxed mb-6">
-      Graham makes the granny flat his permanent home. Upstairs runs as a short-stay holiday let, with the family blocking out their own dates around bookings. A modest 40 nights a year is the planning assumption; real performance for a property like this is typically higher.
+      Graeme makes the granny flat his permanent home. Upstairs runs as a short-stay holiday let, with the family blocking out their own dates around bookings. A modest 40 nights a year is the planning assumption; real performance for a property like this is typically higher.
     </p>
 
     <div class="rounded-2xl p-6 shadow-sm mb-3" style="background:#e8dcc8;">
@@ -463,7 +462,7 @@
 
       <div class="grid grid-cols-3 gap-3">
         <div class="rounded-xl p-4 text-center" style="background:#0E3B43;">
-          <div class="text-xs font-semibold mb-1" style="color:#C66B3D;">Graham &middot; 40%</div>
+          <div class="text-xs font-semibold mb-1" style="color:#C66B3D;">Graeme &middot; 40%</div>
           <div class="font-bold text-white" id="a-graham">$4,006</div>
         </div>
         <div class="rounded-xl p-4 text-center" style="background:#0E3B43;">
@@ -476,10 +475,10 @@
         </div>
       </div>
     </div>
-    <p class="text-xs italic mb-10" style="color:#5a6a6d;">40 nights is intentionally conservative. Try 60 nights to see what Graham's share looks like at higher occupancy.</p>
+    <p class="text-xs italic mb-10" style="color:#5a6a6d;">40 nights is intentionally conservative. Try 60 nights to see what Graeme's share looks like at higher occupancy.</p>
 
     <!-- Scenario B -->
-    <h3 class="text-xl font-serif font-semibold mb-2" style="color:#0E3B43;">Scenario B: Graham gives coastal life a go and decides it's not for him</h3>
+    <h3 class="text-xl font-serif font-semibold mb-2" style="color:#0E3B43;">Scenario B: Graeme gives coastal life a go and decides it's not for him</h3>
     <p class="text-sm leading-relaxed mb-6">
       No hard feelings. The granny flat goes on a long-term residential lease at $350 per week; the same 40/40/20 split applies. The calculator below assumes only the granny flat is generating income in this scenario.
     </p>
@@ -521,7 +520,7 @@
 
       <div class="grid grid-cols-3 gap-3">
         <div class="rounded-xl p-4 text-center" style="background:#0E3B43;">
-          <div class="text-xs font-semibold mb-1" style="color:#C66B3D;">Graham &middot; 40%</div>
+          <div class="text-xs font-semibold mb-1" style="color:#C66B3D;">Graeme &middot; 40%</div>
           <div class="font-bold text-white" id="b-graham">$6,300</div>
         </div>
         <div class="rounded-xl p-4 text-center" style="background:#0E3B43;">
@@ -540,7 +539,7 @@
     <h3 class="text-xl font-serif font-semibold mb-6" style="color:#0E3B43;">Why this structure is fair to everyone</h3>
     <div class="grid sm:grid-cols-3 gap-4 mb-10">
       <div class="rounded-2xl p-5 shadow-sm" style="background:#e8dcc8;">
-        <div class="font-serif font-semibold mb-2" style="color:#0E3B43;">For Graham.</div>
+        <div class="font-serif font-semibold mb-2" style="color:#0E3B43;">For Graeme.</div>
         <ul class="text-sm space-y-1 leading-relaxed">
           <li>A real return on his capital.</li>
           <li>A permanent home or income without hassles.</li>
@@ -580,7 +579,7 @@
         </li>
         <li>
           <div class="font-medium text-sm mb-0.5" style="color:#0E3B43;">Right of residence.</div>
-          <div class="text-sm leading-relaxed">A documented right for Graham to live in the granny flat. His ability to live there should not depend on goodwill alone.</div>
+          <div class="text-sm leading-relaxed">A documented right for Graeme to live in the granny flat. His ability to live there should not depend on goodwill alone.</div>
         </li>
         <li>
           <div class="font-medium text-sm mb-0.5" style="color:#0E3B43;">Estate planning.</div>
@@ -588,7 +587,7 @@
         </li>
         <li>
           <div class="font-medium text-sm mb-0.5" style="color:#0E3B43;">Tax &amp; Centrelink.</div>
-          <div class="text-sm leading-relaxed">Capital gains treatment, Graham's pension/assets-test position, and any deemed-rent issues need an accountant's eye before signing.</div>
+          <div class="text-sm leading-relaxed">Capital gains treatment, Graeme's pension/assets-test position, and any deemed-rent issues need an accountant's eye before signing.</div>
         </li>
         <li>
           <div class="font-medium text-sm mb-0.5" style="color:#0E3B43;">Exit &amp; sale terms.</div>
@@ -603,7 +602,7 @@
       <ul class="mt-2 space-y-1 list-disc list-inside">
         <li>A guarantee. Booking rates and rental markets fluctuate.</li>
         <li>A substitute for legal advice.</li>
-        <li>A pension test workaround. Graham should check Centrelink implications.</li>
+        <li>A pension test workaround. Graeme should check Centrelink implications.</li>
       </ul>
     </div>
   </div>
@@ -635,7 +634,7 @@
 <!-- ===== FOOTER ===== -->
 <footer class="py-8 px-4 text-center text-sm" style="background:#0a2b31; color:rgba(255,255,255,0.5);">
   <div class="mb-2" style="color:rgba(255,255,255,0.75);">
-    Prepared for Graham &nbsp;&middot;&nbsp; with love, Nick &amp; Jodie &nbsp;&middot;&nbsp; April 2026
+    Prepared for Graeme &nbsp;&middot;&nbsp; with love, Nick &amp; Jodie &nbsp;&middot;&nbsp; April 2026
   </div>
   <div class="max-w-xl mx-auto text-xs leading-relaxed">
     All figures are illustrative. Property and rental performance is not guaranteed. Get independent legal and financial advice before signing anything.
