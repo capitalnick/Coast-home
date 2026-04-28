@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>86 Cresswick Parade, Dalmeny · A Family Prospectus</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            teal:       { DEFAULT: '#0E3B43', light: '#1a5464', dark: '#0a2b31' },
+            terracotta: { DEFAULT: '#C66B3D', light: '#d4855d' },
+            cream:      { DEFAULT: '#F4ECDC', dark: '#e8dcc8' },
+            charcoal:   { DEFAULT: '#1F2A2D' },
+          },
+          fontFamily: {
+            serif: ['"Playfair Display"', 'Georgia', 'serif'],
+            sans:  ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    body { background-color: #F4ECDC; color: #1F2A2D; font-family: 'Inter', system-ui, sans-serif; }
+    h1,h2,h3,h4 { font-family: 'Playfair Display', Georgia, serif; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .tab-btn.active { background-color: #F4ECDC; color: #0E3B43; }
+    .tab-btn { transition: all 0.2s ease; color: rgba(255,255,255,0.6); }
+    .tab-btn:not(.active):hover { color: rgba(255,255,255,0.9); }
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button { opacity: 1; }
+    .calc-input {
+      border: 1.5px solid #0E3B43; border-radius: 0.5rem;
+      padding: 0.45rem 0.65rem; width: 100%;
+      font-family: 'Inter', sans-serif; background: white;
+      color: #1F2A2D; font-size: 0.95rem;
+    }
+    .calc-input:focus { outline: 2px solid #C66B3D; outline-offset: 1px; border-color: #C66B3D; }
+    .result-val { font-weight: 600; color: #0E3B43; }
+    .hero-overlay {
+      background: linear-gradient(135deg, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.38) 50%, rgba(0,0,0,0.62) 100%);
+    }
+    .lightbox-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.88);
+      z-index: 1000; display: flex; align-items: center;
+      justify-content: center; cursor: pointer;
+    }
+    .lightbox-overlay img {
+      max-width: 92vw; max-height: 88vh;
+      border-radius: 1rem; box-shadow: 0 8px 64px rgba(0,0,0,0.6);
+    }
+    .route-dot {
+      width: 14px; height: 14px; border-radius: 50%;
+      background: #0E3B43; border: 2.5px solid #C66B3D; flex-shrink: 0;
+    }
+    .route-line { border-top: 2px dashed #C66B3D; }
+
+    @media print {
+      .no-print { display: none !important; }
+      body { background: white; color: black; font-size: 11pt; }
+      .tab-content { display: block !important; }
+      #tabs-nav { display: none; }
+      .hero-section { min-height: auto !important; height: 300px !important; page-break-after: always; }
+      h2 { page-break-before: always; }
+      h2:first-of-type { page-break-before: avoid; }
+      a { color: black; text-decoration: none; }
+      img { max-width: 100%; page-break-inside: avoid; }
+      .calc-input { border: 1px solid #aaa; }
+    }
+  </style>
+</head>
+<body class="font-sans">
+
+<!-- ===== HERO ===== -->
+<section class="hero-section relative min-h-[92vh] flex flex-col justify-end"
+  style="background: url('assets/aerial.jpg') center center / cover no-repeat;">
+  <div class="hero-overlay absolute inset-0"></div>
+  <div class="relative z-10 max-w-4xl mx-auto px-6 pb-16 pt-32 w-full">
+    <p class="text-xs font-semibold tracking-widest mb-4" style="color:#C66B3D;">A FAMILY PROSPECTUS</p>
+    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-serif text-white leading-tight mb-4">
+      A coastal home where<br>Dad has his own front door.
+    </h1>
+    <p class="text-lg sm:text-xl text-white/80 mb-4 font-light">
+      86 Cresswick Parade, Dalmeny NSW &nbsp;&middot;&nbsp; 400 m to Yabbarra Beach &nbsp;&middot;&nbsp; 2 hours 50 minutes from Canberra.
+    </p>
+    <p class="text-base text-white/70 mb-10 max-w-2xl">
+      Two homes under one roof. Graham downstairs in the self-contained granny flat, family upstairs when we visit, and an income stream that pays its own way.
+    </p>
+    <div class="flex flex-wrap gap-4 no-print">
+      <button onclick="activateTab('lifestyle')"
+        class="px-6 py-3 rounded-full font-medium text-sm transition-all"
+        style="background:#C66B3D; color:#fff;">
+        See the lifestyle
+      </button>
+      <button onclick="activateTab('finances')"
+        class="px-6 py-3 rounded-full font-medium text-sm border border-white/50 text-white hover:bg-white/10 transition-all">
+        Run the numbers
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TABS NAV ===== -->
+<nav id="tabs-nav" class="sticky top-0 z-50 shadow-sm no-print" style="background:#0E3B43;">
+  <div class="max-w-4xl mx-auto px-4 flex gap-1 py-2">
+    <button class="tab-btn px-5 py-2.5 rounded-full text-sm font-medium" data-tab="property" onclick="switchTab('property')">Property</button>
+    <button class="tab-btn active px-5 py-2.5 rounded-full text-sm font-medium" data-tab="lifestyle" onclick="switchTab('lifestyle')">Lifestyle</button>
+    <button class="tab-btn px-5 py-2.5 rounded-full text-sm font-medium" data-tab="finances" onclick="switchTab('finances')">Finances</button>
+  </div>
+</nav>
+
+<!-- ===== MAIN CONTENT ===== -->
+<main class="max-w-4xl mx-auto px-4 sm:px-6 py-12">
+
+  <!-- TAB: PROPERTY -->
+  <div id="tab-property" class="tab-content">
+    <h2 class="text-3xl sm:text-4xl font-serif mb-6" style="color:#0E3B43;">The property.</h2>
+    <p class="text-lg leading-relaxed mb-10 max-w-3xl">
+      A four-bedroom, four-bathroom family home set 400 metres from Yabbarra Beach, with sweeping views over the duck pond out to Montague Island. The clever bit: the entire downstairs is a self-contained granny flat with its own kitchen, bathroom, garage, alfresco and spa. Two homes, one roof.
+    </p>
+
+    <!-- Quick Stats -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-12">
+      <div class="rounded-2xl p-5 text-center shadow-sm" style="background:#0E3B43;">
+        <div class="text-3xl font-serif font-semibold text-white">4</div>
+        <div class="text-xs font-semibold tracking-wide mt-1" style="color:#C66B3D;">Bedrooms</div>
+      </div>
+      <div class="rounded-2xl p-5 text-center shadow-sm" style="background:#0E3B43;">
+        <div class="text-3xl font-serif font-semibold text-white">4</div>
+        <div class="text-xs font-semibold tracking-wide mt-1" style="color:#C66B3D;">Bathrooms</div>
+      </div>
+      <div class="rounded-2xl p-5 text-center shadow-sm" style="background:#0E3B43;">
+        <div class="text-3xl font-serif font-semibold text-white">2</div>
+        <div class="text-xs font-semibold tracking-wide mt-1" style="color:#C66B3D;">Garages</div>
+      </div>
+      <div class="rounded-2xl p-5 text-center shadow-sm" style="background:#0E3B43;">
+        <div class="text-xl font-serif font-semibold text-white">$1,095,000</div>
+        <div class="text-xs font-semibold tracking-wide mt-1" style="color:#C66B3D;">Asking Price</div>
+      </div>
+      <div class="rounded-2xl p-5 text-center shadow-sm" style="background:#0E3B43;">
+        <div class="text-2xl font-serif font-semibold text-white">400 m</div>
+        <div class="text-xs font-semibold tracking-wide mt-1" style="color:#C66B3D;">To the Beach</div>
+      </div>
+      <div class="rounded-2xl p-5 text-center shadow-sm" style="background:#0E3B43;">
+        <div class="text-sm font-serif font-semibold text-white leading-snug">Self-contained</div>
+        <div class="text-xs font-semibold tracking-wide mt-1" style="color:#C66B3D;">Granny Flat</div>
+      </div>
+    </div>
+
+    <!-- Facade -->
+    <figure class="mb-12">
+      <img src="assets/facade.jpg" alt="86 Cresswick Parade, Dalmeny"
+        class="w-full rounded-2xl shadow-lg object-cover cursor-pointer"
+        style="max-height:480px;"
+        onclick="openLightbox(this.src, this.alt)">
+      <figcaption class="mt-3 text-sm italic" style="color:#5a6a6d;">
+        86 Cresswick Parade, Dalmeny. Brick exterior, generous front deck, two single garages, established gardens that need a man with shears.
+      </figcaption>
+    </figure>
+
+    <!-- Two wings -->
+    <div class="grid sm:grid-cols-2 gap-8 mb-12">
+      <div>
+        <h3 class="text-xl font-serif font-semibold mb-4" style="color:#0E3B43;">Upstairs, the family wing</h3>
+        <ul class="space-y-2 text-sm leading-relaxed">
+          <li class="flex gap-2"><span style="color:#C66B3D;">&mdash;</span> Four bedrooms (master ensuite plus a second ensuite)</li>
+          <li class="flex gap-2"><span style="color:#C66B3D;">&mdash;</span> Open-plan living, meals and a separate formal dining</li>
+          <li class="flex gap-2"><span style="color:#C66B3D;">&mdash;</span> Kitchen with gas cooktop and electric oven</li>
+          <li class="flex gap-2"><span style="color:#C66B3D;">&mdash;</span> New wood-fired heater in the main lounge</li>
+          <li class="flex gap-2"><span style="color:#C66B3D;">&mdash;</span> Covered front deck for the sunrise over Montague</li>
+          <li class="flex gap-2"><span style="color:#C66B3D;">&mdash;</span> Office nook</li>
+          <li class="flex gap-2"><span style="color:#C66B3D;">&mdash;</span> Internal laundry</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-xl font-serif font-semibold mb-4" style="color:#0E3B43;">Downstairs, the self-contained wing</h3>
+        <p class="text-sm mb-3" style="color:#5a6a6d;">Where Graham would live, or a long-term tenant would.</p>
+        <ul class="space-y-2 text-sm leading-relaxed">
+          <li class="flex gap-2"><span style="color:#C66B3D;">&mdash;</span> Studio living space, 4.0 x 8.6 m (bigger than most one-bedders)</li>
+          <li class="flex gap-2"><span style="color:#C66B3D;">&mdash;</span> Kitchen and meals area, 3.5 x 3.0 m</li>
+          <li class="flex gap-2"><span style="color:#C66B3D;">&mdash;</span> Full bathroom</li>
+          <li class="flex gap-2"><span style="color:#C66B3D;">&mdash;</span> Covered alfresco with built-in BBQ</li>
+          <li class="flex gap-2"><span style="color:#C66B3D;">&mdash;</span> Timber spa</li>
+          <li class="flex gap-2"><span style="color:#C66B3D;">&mdash;</span> Dedicated single garage</li>
+          <li class="flex gap-2"><span style="color:#C66B3D;">&mdash;</span> Patio opening to the garden</li>
+          <li class="flex gap-2"><span style="color:#C66B3D;">&mdash;</span> Generous under-house workshop and storage area</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Living room -->
+    <figure class="mb-12">
+      <img src="assets/living-room.jpg" alt="Upstairs living area"
+        class="w-full rounded-2xl shadow-lg object-cover cursor-pointer"
+        style="max-height:480px;"
+        onclick="openLightbox(this.src, this.alt)">
+      <figcaption class="mt-3 text-sm italic" style="color:#5a6a6d;">
+        Upstairs living. Brick feature wall, hardwood floors, wood-fired heater. Where the family lands when we drive down.
+      </figcaption>
+    </figure>
+
+    <!-- Floorplan -->
+    <figure class="mb-12">
+      <img src="assets/floorplan.jpg" alt="Floor plan"
+        class="w-full rounded-2xl shadow-lg object-contain cursor-pointer"
+        style="max-height:540px; background:#fff;"
+        onclick="openLightbox(this.src, this.alt)">
+      <figcaption class="mt-3 text-sm italic" style="color:#5a6a6d;">
+        Two floors, two homes. First floor up top, ground-floor granny flat below.
+      </figcaption>
+    </figure>
+
+    <!-- Deck view -->
+    <figure class="mb-12">
+      <img src="assets/deck-view.jpg" alt="View from the front deck"
+        class="w-full rounded-2xl shadow-lg object-cover cursor-pointer"
+        style="max-height:480px;"
+        onclick="openLightbox(this.src, this.alt)">
+      <figcaption class="mt-3 text-sm italic" style="color:#5a6a6d;">
+        The view from the front deck. Duck pond in the foreground, Montague Island on the horizon.
+      </figcaption>
+    </figure>
+
+    <!-- Listing Details -->
+    <div class="rounded-2xl p-6 mb-4 shadow-sm" style="background:#e8dcc8;">
+      <h3 class="text-lg font-serif font-semibold mb-4" style="color:#0E3B43;">Listing details</h3>
+      <div class="grid sm:grid-cols-2 gap-3 text-sm">
+        <div><span class="font-medium">Asking price:</span> $1,095,000</div>
+        <div><span class="font-medium">Property ID:</span> 150769104</div>
+        <div><span class="font-medium">Agent:</span> Steven Hutcheson</div>
+        <div><span class="font-medium">Agency:</span> LJ Hooker Moruya &amp; Tuross Head</div>
+        <div><span class="font-medium">Phone:</span> <a href="tel:0407226603" style="color:#C66B3D;">0407 226 603</a></div>
+        <div><span class="font-medium">Office:</span> 2/45 Vulcan Street, Moruya NSW</div>
+        <div class="sm:col-span-2"><span class="font-medium">Inspections:</span> By appointment; contact agent.</div>
+        <div class="sm:col-span-2">
+          <a href="https://www.realestate.com.au/property-house-nsw-dalmeny-150769104"
+            target="_blank" rel="noopener"
+            class="font-medium underline underline-offset-2" style="color:#C66B3D;">
+            View on realestate.com.au &rarr;
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: LIFESTYLE (default) -->
+  <div id="tab-lifestyle" class="tab-content active">
+    <h2 class="text-3xl sm:text-4xl font-serif mb-6" style="color:#0E3B43;">The lifestyle.</h2>
+    <p class="text-lg leading-relaxed mb-10 max-w-3xl">
+      Dalmeny is a small, kind, coastal town just north of Narooma on the NSW South Coast. Population a touch over 1,500. The kind of place where the IGA owner knows your face by week three, where the morning walk ends with toes in the sand, and where the noisiest thing in the street is the wind through the casuarinas.
+    </p>
+
+    <!-- Aerial -->
+    <figure class="mb-12">
+      <img src="assets/aerial.jpg" alt="Dalmeny from the air"
+        class="w-full rounded-2xl shadow-lg object-cover cursor-pointer"
+        style="max-height:480px;"
+        onclick="openLightbox(this.src, this.alt)">
+      <figcaption class="mt-3 text-sm italic" style="color:#5a6a6d;">
+        Dalmeny from the air. The house sits a single street back from the duck pond and a 400 m stroll from Yabbarra Beach.
+      </figcaption>
+    </figure>
+
+    <!-- 2x2 doorstep grid -->
+    <h3 class="text-xl font-serif font-semibold mb-6" style="color:#0E3B43;">What is on your doorstep</h3>
+    <div class="grid sm:grid-cols-2 gap-4 mb-12">
+      <div class="rounded-2xl p-6 shadow-sm" style="background:#0E3B43;">
+        <div class="text-xs font-semibold tracking-widest mb-2" style="color:#C66B3D;">400 M</div>
+        <h4 class="text-lg font-serif font-semibold text-white mb-2">The beach.</h4>
+        <p class="text-sm text-white/75 leading-relaxed">Yabbarra Beach is a five-minute walk down the road. Brou Beach and Mummaga Lake are within easy reach. Protected swimming, dune walks, sand to spare.</p>
+      </div>
+      <div class="rounded-2xl p-6 shadow-sm" style="background:#0E3B43;">
+        <div class="text-xs font-semibold tracking-widest mb-2" style="color:#C66B3D;">16 KM RETURN</div>
+        <h4 class="text-lg font-serif font-semibold text-white mb-2">Cycleway to Narooma.</h4>
+        <p class="text-sm text-white/75 leading-relaxed">A community-built coastal cycleway runs all the way to Narooma. Rated easy. Coffee at the Quarterdeck is the natural turnaround point.</p>
+      </div>
+      <div class="rounded-2xl p-6 shadow-sm" style="background:#0E3B43;">
+        <div class="text-xs font-semibold tracking-widest mb-2" style="color:#C66B3D;">VILLAGE</div>
+        <h4 class="text-lg font-serif font-semibold text-white mb-2">The basics.</h4>
+        <p class="text-sm text-white/75 leading-relaxed">IGA, fuel, cafe, post. Everything you actually need; no driving for milk.</p>
+      </div>
+      <div class="rounded-2xl p-6 shadow-sm" style="background:#0E3B43;">
+        <div class="text-xs font-semibold tracking-widest mb-2" style="color:#C66B3D;">LOCAL</div>
+        <h4 class="text-lg font-serif font-semibold text-white mb-2">Community.</h4>
+        <p class="text-sm text-white/75 leading-relaxed">Bowls club, fishing club, the campground in the middle of town, and a steady rhythm to the year.</p>
+      </div>
+    </div>
+
+    <!-- Deck view -->
+    <figure class="mb-12">
+      <img src="assets/deck-view.jpg" alt="Morning coffee on the front deck"
+        class="w-full rounded-2xl shadow-lg object-cover cursor-pointer"
+        style="max-height:480px;"
+        onclick="openLightbox(this.src, this.alt)">
+      <figcaption class="mt-3 text-sm italic" style="color:#5a6a6d;">
+        Morning coffee on the front deck. The duck pond, Montague Island on the horizon, and the steady sound of the surf 400 metres away.
+      </figcaption>
+    </figure>
+
+    <!-- Narooma -->
+    <h3 class="text-xl font-serif font-semibold mb-4" style="color:#0E3B43;">Seven kilometres up the road: Narooma &amp; Barunguba</h3>
+    <p class="text-base leading-relaxed mb-6">
+      Narooma is the next town up. Wagonga Inlet, the famous Australia Rock, the golf course with a hole right on the water, and a working harbour that runs charters out to Barunguba (Montague Island). A 20-minute boat ride from Narooma's harbour gets you to one of the most extraordinary marine spots in the country.
+    </p>
+    <ul class="space-y-4 mb-12">
+      <li class="flex gap-3 text-sm leading-relaxed">
+        <span class="mt-0.5 shrink-0" style="color:#C66B3D;">&#9632;</span>
+        <div><strong>NSW's largest fur seal colony.</strong> Snorkelling with seals is Narooma's signature trip. World-class diving.</div>
+      </li>
+      <li class="flex gap-3 text-sm leading-relaxed">
+        <span class="mt-0.5 shrink-0" style="color:#C66B3D;">&#9632;</span>
+        <div><strong>Little penguins.</strong> One of the largest little-penguin breeding colonies in Australia. Evening tours run from spring to summer.</div>
+      </li>
+      <li class="flex gap-3 text-sm leading-relaxed">
+        <span class="mt-0.5 shrink-0" style="color:#C66B3D;">&#9632;</span>
+        <div><strong>Whales, September to November.</strong> Thousands of humpbacks pass each year on migration.</div>
+      </li>
+      <li class="flex gap-3 text-sm leading-relaxed">
+        <span class="mt-0.5 shrink-0" style="color:#C66B3D;">&#9632;</span>
+        <div><strong>The 1881 lighthouse.</strong> Granite tower and keeper's quarters; walking trails across the reserve.</div>
+      </li>
+    </ul>
+
+    <!-- Route graphic -->
+    <h3 class="text-xl font-serif font-semibold mb-8" style="color:#0E3B43;">Within reach of family</h3>
+    <div class="flex items-center gap-4 mb-6 px-4">
+      <div class="flex flex-col items-center gap-1 shrink-0">
+        <div class="route-dot"></div>
+        <div class="text-xs font-medium mt-1" style="color:#0E3B43;">Canberra</div>
+      </div>
+      <div class="flex-1 relative flex items-center">
+        <div class="route-line w-full"></div>
+        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div class="px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap"
+            style="background:#F4ECDC; color:#C66B3D; border:1.5px solid #C66B3D;">
+            approx. 2 h 50 m &nbsp;&middot;&nbsp; 200 km
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col items-center gap-1 shrink-0">
+        <div class="route-dot"></div>
+        <div class="text-xs font-medium mt-1" style="color:#0E3B43;">Dalmeny</div>
+      </div>
+    </div>
+    <ul class="space-y-2 text-sm leading-relaxed mb-12">
+      <li class="flex gap-2"><span style="color:#C66B3D;">&mdash;</span> Roughly 200 kilometres from Canberra. About 2 hours 50 minutes by car.</li>
+      <li class="flex gap-2"><span style="color:#C66B3D;">&mdash;</span> Close enough that Nick and Jodie can drive down for a weekend without a production.</li>
+      <li class="flex gap-2"><span style="color:#C66B3D;">&mdash;</span> Close enough that Tony can come down to visit Graham, stay the weekend, and head home Sunday.</li>
+      <li class="flex gap-2"><span style="color:#C66B3D;">&mdash;</span> A real Sunday lunch at Dad's; an actual phrase that becomes possible.</li>
+    </ul>
+
+    <!-- Graham's day -->
+    <div class="rounded-2xl p-8 mb-4 shadow-sm" style="background:#e8dcc8; border-left:4px solid #C66B3D;">
+      <h3 class="text-lg font-serif font-semibold mb-4" style="color:#0E3B43;">A day in the life (Graham edition)</h3>
+      <p class="text-base italic leading-relaxed">
+        6:30. Coffee on the alfresco. The kookaburras start up. Walk down to Yabbarra, ten minutes there, ten minutes back. Pick up the paper at the IGA. The hedges out the front need a trim before it gets warm; that's the morning sorted. Lunch at home. Afternoon for the spa, or the fishing club, or a slow drive into Narooma for a counter meal. Tony rings to say he's coming down Friday. The spare room is already made up.
+      </p>
+    </div>
+  </div>
+
+  <!-- TAB: FINANCES -->
+  <div id="tab-finances" class="tab-content">
+    <h2 class="text-3xl sm:text-4xl font-serif mb-6" style="color:#0E3B43;">The arrangement.</h2>
+    <p class="text-base leading-relaxed mb-10 max-w-3xl">
+      This is the framework, not the contract. The exact ownership structure, loan structure and tax treatment all need to be confirmed by a solicitor and an accountant before anything is signed. Here is what the shape looks like.
+    </p>
+
+    <!-- 3-step -->
+    <div class="grid sm:grid-cols-3 gap-4 mb-12">
+      <div class="rounded-2xl p-6 shadow-sm text-center" style="background:#0E3B43;">
+        <div class="text-3xl font-serif font-bold mb-3" style="color:#C66B3D;">1</div>
+        <h4 class="font-serif font-semibold text-white mb-2">Graham contributes the deposit.</h4>
+        <p class="text-xs text-white/70 leading-relaxed">Sized to clear lender requirements. He owns equity in the property from day one.</p>
+      </div>
+      <div class="rounded-2xl p-6 shadow-sm text-center" style="background:#0E3B43;">
+        <div class="text-3xl font-serif font-bold mb-3" style="color:#C66B3D;">2</div>
+        <h4 class="font-serif font-semibold text-white mb-2">Nick &amp; Jodie carry the mortgage.</h4>
+        <p class="text-xs text-white/70 leading-relaxed">Repayments come out of their income. Graham is not on the hook for the monthly mortgage.</p>
+      </div>
+      <div class="rounded-2xl p-6 shadow-sm text-center" style="background:#0E3B43;">
+        <div class="text-3xl font-serif font-bold mb-3" style="color:#C66B3D;">3</div>
+        <h4 class="font-serif font-semibold text-white mb-2">Income split 40 / 40 / 20.</h4>
+        <p class="text-xs text-white/70 leading-relaxed">Forty per cent to Graham, forty per cent to a maintenance fund, twenty per cent to the mortgage offset.</p>
+      </div>
+    </div>
+
+    <!-- 40/40/20 explained -->
+    <h3 class="text-xl font-serif font-semibold mb-6" style="color:#0E3B43;">The 40 / 40 / 20 split, explained</h3>
+    <div class="grid sm:grid-cols-3 gap-4 mb-12">
+      <div class="rounded-2xl p-6 shadow-sm" style="background:#e8dcc8;">
+        <div class="text-lg font-serif font-bold mb-2" style="color:#0E3B43;">40% to Graham.</div>
+        <p class="text-sm leading-relaxed">His deposit is the reason this property exists. He gets a real, ongoing return on that capital, paid quarterly into his account.</p>
+      </div>
+      <div class="rounded-2xl p-6 shadow-sm" style="background:#e8dcc8;">
+        <div class="text-lg font-serif font-bold mb-2" style="color:#0E3B43;">40% to a maintenance fund.</div>
+        <p class="text-sm leading-relaxed">A coastal property in salt air is a beast that wants feeding. Painting, gardens, the spa, the unexpected. Anything not spent stays in the fund and means surprises don't become arguments.</p>
+      </div>
+      <div class="rounded-2xl p-6 shadow-sm" style="background:#e8dcc8;">
+        <div class="text-lg font-serif font-bold mb-2" style="color:#0E3B43;">20% to the mortgage offset.</div>
+        <p class="text-sm leading-relaxed">Goes straight against the home loan. Reduces interest paid by Nick &amp; Jodie, and grows everyone's equity faster.</p>
+      </div>
+    </div>
+
+    <!-- Scenario A -->
+    <h3 class="text-xl font-serif font-semibold mb-2" style="color:#0E3B43;">Scenario A: Graham lives downstairs</h3>
+    <p class="text-sm leading-relaxed mb-6">
+      Graham makes the granny flat his permanent home. Upstairs runs as a short-stay holiday let, with the family blocking out their own dates around bookings. A modest 40 nights a year is the planning assumption; real performance for a property like this is typically higher.
+    </p>
+
+    <div class="rounded-2xl p-6 shadow-sm mb-3" style="background:#e8dcc8;">
+      <div class="grid sm:grid-cols-2 gap-x-8 gap-y-4 mb-6">
+        <label class="block">
+          <span class="text-xs font-semibold uppercase tracking-wide block mb-1" style="color:#0E3B43;">Nightly rate ($)</span>
+          <input type="number" id="a-nightly" class="calc-input" value="320" min="0" oninput="calcA()">
+        </label>
+        <label class="block">
+          <span class="text-xs font-semibold uppercase tracking-wide block mb-1" style="color:#0E3B43;">Nights booked per year</span>
+          <input type="number" id="a-nights" class="calc-input" value="40" min="0" oninput="calcA()">
+        </label>
+        <label class="block">
+          <span class="text-xs font-semibold uppercase tracking-wide block mb-1" style="color:#0E3B43;">Average stay length (nights)</span>
+          <input type="number" id="a-stay" class="calc-input" value="2.5" min="0.5" step="0.5" oninput="calcA()">
+        </label>
+        <label class="block">
+          <span class="text-xs font-semibold uppercase tracking-wide block mb-1" style="color:#0E3B43;">Cleaning fee per turnover ($)</span>
+          <input type="number" id="a-clean" class="calc-input" value="150" min="0" oninput="calcA()">
+        </label>
+        <label class="block">
+          <span class="text-xs font-semibold uppercase tracking-wide block mb-1" style="color:#0E3B43;">Airbnb host fee (%)</span>
+          <input type="number" id="a-fee" class="calc-input" value="3" min="0" max="100" step="0.5" oninput="calcA()">
+        </label>
+      </div>
+
+      <div class="border-t pt-4 mb-4" style="border-color:rgba(14,59,67,0.2);">
+        <table class="w-full text-sm">
+          <tbody>
+            <tr class="border-b" style="border-color:rgba(14,59,67,0.12);">
+              <td class="py-2">Gross income</td>
+              <td class="py-2 text-right result-val" id="a-gross">$12,800</td>
+            </tr>
+            <tr class="border-b" style="border-color:rgba(14,59,67,0.12);">
+              <td class="py-2">Less Airbnb host fee</td>
+              <td class="py-2 text-right" style="color:#C66B3D;" id="a-airbnb-fee">-$384</td>
+            </tr>
+            <tr class="border-b" style="border-color:rgba(14,59,67,0.12);">
+              <td class="py-2">Less cleaning (<span id="a-turnovers">16</span> turnovers)</td>
+              <td class="py-2 text-right" style="color:#C66B3D;" id="a-clean-total">-$2,400</td>
+            </tr>
+            <tr>
+              <td class="py-2 font-semibold" style="color:#0E3B43;">Net annual income</td>
+              <td class="py-2 text-right font-bold text-lg result-val" id="a-net">$10,016</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="grid grid-cols-3 gap-3">
+        <div class="rounded-xl p-4 text-center" style="background:#0E3B43;">
+          <div class="text-xs font-semibold mb-1" style="color:#C66B3D;">Graham &middot; 40%</div>
+          <div class="font-bold text-white" id="a-graham">$4,006</div>
+        </div>
+        <div class="rounded-xl p-4 text-center" style="background:#0E3B43;">
+          <div class="text-xs font-semibold mb-1" style="color:#C66B3D;">Maintenance &middot; 40%</div>
+          <div class="font-bold text-white" id="a-maint">$4,006</div>
+        </div>
+        <div class="rounded-xl p-4 text-center" style="background:#0E3B43;">
+          <div class="text-xs font-semibold mb-1" style="color:#C66B3D;">Offset &middot; 20%</div>
+          <div class="font-bold text-white" id="a-offset">$2,003</div>
+        </div>
+      </div>
+    </div>
+    <p class="text-xs italic mb-10" style="color:#5a6a6d;">40 nights is intentionally conservative. Try 60 nights to see what Graham's share looks like at higher occupancy.</p>
+
+    <!-- Scenario B -->
+    <h3 class="text-xl font-serif font-semibold mb-2" style="color:#0E3B43;">Scenario B: Graham gives coastal life a go and decides it's not for him</h3>
+    <p class="text-sm leading-relaxed mb-6">
+      No hard feelings. The granny flat goes on a long-term residential lease at $350 per week; the same 40/40/20 split applies. The calculator below assumes only the granny flat is generating income in this scenario.
+    </p>
+
+    <div class="rounded-2xl p-6 shadow-sm mb-3" style="background:#e8dcc8;">
+      <div class="grid sm:grid-cols-2 gap-x-8 gap-y-4 mb-6">
+        <label class="block">
+          <span class="text-xs font-semibold uppercase tracking-wide block mb-1" style="color:#0E3B43;">Weekly rent ($)</span>
+          <input type="number" id="b-rent" class="calc-input" value="350" min="0" oninput="calcB()">
+        </label>
+        <label class="block">
+          <span class="text-xs font-semibold uppercase tracking-wide block mb-1" style="color:#0E3B43;">Weeks rented per year</span>
+          <input type="number" id="b-weeks" class="calc-input" value="50" min="0" max="52" oninput="calcB()">
+        </label>
+        <label class="block">
+          <span class="text-xs font-semibold uppercase tracking-wide block mb-1" style="color:#0E3B43;">Management &amp; letting costs (%)</span>
+          <input type="number" id="b-mgmt" class="calc-input" value="10" min="0" max="100" step="0.5" oninput="calcB()">
+        </label>
+      </div>
+
+      <div class="border-t pt-4 mb-4" style="border-color:rgba(14,59,67,0.2);">
+        <table class="w-full text-sm">
+          <tbody>
+            <tr class="border-b" style="border-color:rgba(14,59,67,0.12);">
+              <td class="py-2">Gross income</td>
+              <td class="py-2 text-right result-val" id="b-gross">$17,500</td>
+            </tr>
+            <tr class="border-b" style="border-color:rgba(14,59,67,0.12);">
+              <td class="py-2">Less management &amp; letting</td>
+              <td class="py-2 text-right" style="color:#C66B3D;" id="b-mgmt-total">-$1,750</td>
+            </tr>
+            <tr>
+              <td class="py-2 font-semibold" style="color:#0E3B43;">Net annual income</td>
+              <td class="py-2 text-right font-bold text-lg result-val" id="b-net">$15,750</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="grid grid-cols-3 gap-3">
+        <div class="rounded-xl p-4 text-center" style="background:#0E3B43;">
+          <div class="text-xs font-semibold mb-1" style="color:#C66B3D;">Graham &middot; 40%</div>
+          <div class="font-bold text-white" id="b-graham">$6,300</div>
+        </div>
+        <div class="rounded-xl p-4 text-center" style="background:#0E3B43;">
+          <div class="text-xs font-semibold mb-1" style="color:#C66B3D;">Maintenance &middot; 40%</div>
+          <div class="font-bold text-white" id="b-maint">$6,300</div>
+        </div>
+        <div class="rounded-xl p-4 text-center" style="background:#0E3B43;">
+          <div class="text-xs font-semibold mb-1" style="color:#C66B3D;">Offset &middot; 20%</div>
+          <div class="font-bold text-white" id="b-offset">$3,150</div>
+        </div>
+      </div>
+    </div>
+    <p class="text-xs italic mb-10" style="color:#5a6a6d;">Set management to 0% if you are self-managing the tenancy.</p>
+
+    <!-- Why fair -->
+    <h3 class="text-xl font-serif font-semibold mb-6" style="color:#0E3B43;">Why this structure is fair to everyone</h3>
+    <div class="grid sm:grid-cols-3 gap-4 mb-10">
+      <div class="rounded-2xl p-5 shadow-sm" style="background:#e8dcc8;">
+        <div class="font-serif font-semibold mb-2" style="color:#0E3B43;">For Graham.</div>
+        <ul class="text-sm space-y-1 leading-relaxed">
+          <li>A real return on his capital.</li>
+          <li>A permanent home or income without hassles.</li>
+          <li>Equity in a coastal property.</li>
+          <li>Family within reach.</li>
+        </ul>
+      </div>
+      <div class="rounded-2xl p-5 shadow-sm" style="background:#e8dcc8;">
+        <div class="font-serif font-semibold mb-2" style="color:#0E3B43;">For Nick &amp; Jodie.</div>
+        <ul class="text-sm space-y-1 leading-relaxed">
+          <li>A foothold on the coast we couldn't otherwise reach.</li>
+          <li>A weekender that's also family infrastructure.</li>
+          <li>Help paying down the mortgage faster.</li>
+        </ul>
+      </div>
+      <div class="rounded-2xl p-5 shadow-sm" style="background:#e8dcc8;">
+        <div class="font-serif font-semibold mb-2" style="color:#0E3B43;">For the family.</div>
+        <ul class="text-sm space-y-1 leading-relaxed">
+          <li>A shared place that holds everyone.</li>
+          <li>Tony has somewhere to come.</li>
+          <li>Christmases, birthdays, just-because weekends.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Things to nail down -->
+    <div class="rounded-2xl p-6 mb-10 shadow-sm" style="background:#fdf8ee; border:1.5px solid #C66B3D;">
+      <h3 class="text-lg font-serif font-semibold mb-4" style="color:#0E3B43;">Things to nail down</h3>
+      <ul class="space-y-4">
+        <li>
+          <div class="font-medium text-sm mb-0.5" style="color:#0E3B43;">Ownership structure.</div>
+          <div class="text-sm leading-relaxed">Tenants in common, with specific shares, is usually the right vehicle here. Not joint tenancy.</div>
+        </li>
+        <li>
+          <div class="font-medium text-sm mb-0.5" style="color:#0E3B43;">Co-ownership agreement.</div>
+          <div class="text-sm leading-relaxed">Written, signed, covering: who pays what (rates, insurance, repairs), how decisions get made, what happens if someone wants out, dispute process.</div>
+        </li>
+        <li>
+          <div class="font-medium text-sm mb-0.5" style="color:#0E3B43;">Right of residence.</div>
+          <div class="text-sm leading-relaxed">A documented right for Graham to live in the granny flat. His ability to live there should not depend on goodwill alone.</div>
+        </li>
+        <li>
+          <div class="font-medium text-sm mb-0.5" style="color:#0E3B43;">Estate planning.</div>
+          <div class="text-sm leading-relaxed">Wills and beneficiary nominations need to be aligned with the arrangement. A solicitor can sort this in an afternoon.</div>
+        </li>
+        <li>
+          <div class="font-medium text-sm mb-0.5" style="color:#0E3B43;">Tax &amp; Centrelink.</div>
+          <div class="text-sm leading-relaxed">Capital gains treatment, Graham's pension/assets-test position, and any deemed-rent issues need an accountant's eye before signing.</div>
+        </li>
+        <li>
+          <div class="font-medium text-sm mb-0.5" style="color:#0E3B43;">Exit &amp; sale terms.</div>
+          <div class="text-sm leading-relaxed">Pre-agreed valuation method and a fair process if anyone needs to sell, or if circumstances change.</div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- What this is not -->
+    <div class="rounded-2xl p-5 mb-4 text-sm leading-relaxed" style="background:#e8dcc8;">
+      <strong class="font-semibold" style="color:#0E3B43;">What this is not:</strong>
+      <ul class="mt-2 space-y-1 list-disc list-inside">
+        <li>A guarantee. Booking rates and rental markets fluctuate.</li>
+        <li>A substitute for legal advice.</li>
+        <li>A pension test workaround. Graham should check Centrelink implications.</li>
+      </ul>
+    </div>
+  </div>
+
+</main>
+
+<!-- ===== WHAT NOW ===== -->
+<section class="py-16 px-4" style="background:#0E3B43;">
+  <div class="max-w-2xl mx-auto text-center">
+    <h2 class="text-3xl sm:text-4xl font-serif text-white mb-4">What now?</h2>
+    <p class="text-lg text-white/75 mb-8 leading-relaxed">
+      Drive down with us next weekend. Walk through the granny flat. Stand on the front deck. Trim a hedge, hypothetically. We'll buy lunch in Narooma.
+    </p>
+    <div class="flex flex-wrap justify-center gap-4 no-print">
+      <a href="tel:0407226603"
+        class="inline-flex items-center gap-2 px-6 py-3 rounded-full font-medium text-sm transition-all"
+        style="background:#C66B3D; color:#fff;">
+        Call Steven Hutcheson &nbsp;&middot;&nbsp; 0407 226 603
+      </a>
+      <a href="https://www.realestate.com.au/property-house-nsw-dalmeny-150769104"
+        target="_blank" rel="noopener"
+        class="inline-flex items-center gap-2 px-6 py-3 rounded-full font-medium text-sm border border-white/40 text-white hover:bg-white/10 transition-all">
+        View the listing &rarr;
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="py-8 px-4 text-center text-sm" style="background:#0a2b31; color:rgba(255,255,255,0.5);">
+  <div class="mb-2" style="color:rgba(255,255,255,0.75);">
+    Prepared for Graham &nbsp;&middot;&nbsp; with love, Nick &amp; Jodie &nbsp;&middot;&nbsp; April 2026
+  </div>
+  <div class="max-w-xl mx-auto text-xs leading-relaxed">
+    All figures are illustrative. Property and rental performance is not guaranteed. Get independent legal and financial advice before signing anything.
+  </div>
+  <div class="mt-4 text-xs">
+    Listing agent: Steven Hutcheson, LJ Hooker Moruya &amp; Tuross Head &nbsp;&middot;&nbsp;
+    <a href="tel:0407226603" style="color:#C66B3D;">0407 226 603</a>
+  </div>
+</footer>
+
+<!-- Lightbox -->
+<div id="lightbox" class="lightbox-overlay" style="display:none;" onclick="closeLightbox()">
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<script>
+  // Tab switching
+  function switchTab(id) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    document.querySelector('[data-tab="' + id + '"]').classList.add('active');
+  }
+
+  function activateTab(id) {
+    switchTab(id);
+    document.getElementById('tabs-nav').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // Formatters
+  function fmt(n)    { return '$' + Math.round(n).toLocaleString('en-AU'); }
+  function fmtN(n)   { return '-$' + Math.round(n).toLocaleString('en-AU'); }
+
+  // Scenario A calculator
+  function calcA() {
+    var nightly = parseFloat(document.getElementById('a-nightly').value) || 0;
+    var nights  = parseFloat(document.getElementById('a-nights').value)  || 0;
+    var stay    = parseFloat(document.getElementById('a-stay').value)    || 1;
+    var clean   = parseFloat(document.getElementById('a-clean').value)   || 0;
+    var fee     = parseFloat(document.getElementById('a-fee').value)     || 0;
+
+    var gross     = nights * nightly;
+    var airbnbFee = gross * (fee / 100);
+    var turnovers = stay > 0 ? Math.ceil(nights / stay) : 0;
+    var cleaning  = turnovers * clean;
+    var net       = Math.max(0, gross - airbnbFee - cleaning);
+
+    document.getElementById('a-gross').textContent       = fmt(gross);
+    document.getElementById('a-airbnb-fee').textContent  = fmtN(airbnbFee);
+    document.getElementById('a-turnovers').textContent   = turnovers;
+    document.getElementById('a-clean-total').textContent = fmtN(cleaning);
+    document.getElementById('a-net').textContent         = fmt(net);
+    document.getElementById('a-graham').textContent      = fmt(net * 0.4);
+    document.getElementById('a-maint').textContent       = fmt(net * 0.4);
+    document.getElementById('a-offset').textContent      = fmt(net * 0.2);
+  }
+
+  // Scenario B calculator
+  function calcB() {
+    var rent  = parseFloat(document.getElementById('b-rent').value)  || 0;
+    var weeks = parseFloat(document.getElementById('b-weeks').value) || 0;
+    var mgmt  = parseFloat(document.getElementById('b-mgmt').value)  || 0;
+
+    var gross   = weeks * rent;
+    var mgmtAmt = gross * (mgmt / 100);
+    var net     = Math.max(0, gross - mgmtAmt);
+
+    document.getElementById('b-gross').textContent      = fmt(gross);
+    document.getElementById('b-mgmt-total').textContent = fmtN(mgmtAmt);
+    document.getElementById('b-net').textContent        = fmt(net);
+    document.getElementById('b-graham').textContent     = fmt(net * 0.4);
+    document.getElementById('b-maint').textContent      = fmt(net * 0.4);
+    document.getElementById('b-offset').textContent     = fmt(net * 0.2);
+  }
+
+  // Lightbox
+  function openLightbox(src, alt) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox-img').alt = alt || '';
+    document.getElementById('lightbox').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeLightbox(); });
+
+  // Init
+  calcA();
+  calcB();
+</script>
+</body>
+</html>
