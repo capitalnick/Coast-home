@@ -45,7 +45,7 @@
     .calc-input:focus { outline: 2px solid #C66B3D; outline-offset: 1px; border-color: #C66B3D; }
     .result-val { font-weight: 600; color: #0E3B43; }
     .hero-overlay {
-      background: linear-gradient(to top, rgba(0,0,0,0.30) 0px, rgba(0,0,0,0) 450px);
+      background: linear-gradient(to top, rgba(0,0,0,0.60) 0px, rgba(0,0,0,0.20) 300px, rgba(0,0,0,0) 500px);
     }
     .lightbox-overlay {
       position: fixed; inset: 0; background: rgba(0,0,0,0.88);
@@ -79,9 +79,9 @@
 <body class="font-sans">
 
 <!-- ===== HERO ===== -->
-<section class="hero-section relative flex flex-col justify-end overflow-hidden" style="max-height:700px; min-height:500px; background: url('assets/hero-coastal.webp') center center / cover no-repeat;">
+<section class="hero-section relative flex flex-col justify-end overflow-hidden" style="height:700px; background: url('assets/hero-coastal.webp') center center / cover no-repeat;">
   <div class="hero-overlay absolute inset-0"></div>
-  <div class="relative z-10 max-w-4xl mx-auto px-6 pb-12 pt-16 w-full" style="max-height:500px; overflow:hidden;">
+  <div class="relative z-10 max-w-4xl mx-auto px-6 pb-12 pt-16 w-full">
     <p class="text-xs font-semibold tracking-widest mb-4" style="color:#C66B3D;">A FAMILY PROSPECTUS</p>
     <h1 class="text-4xl sm:text-5xl lg:text-6xl font-serif text-white leading-tight mb-4">
       A coastal home where<br>Dad has his own front door.
@@ -256,39 +256,40 @@
       Dalmeny is a small, kind, coastal town just north of Narooma on the NSW South Coast. Population a touch over 1,500. The kind of place where the IGA owner knows your face by week three, where the morning walk ends with toes in the sand, and where the noisiest thing in the street is the wind through the casuarinas.
     </p>
 
-    <!-- Aerial -->
-    <figure class="mb-12">
-      <img src="assets/aerial.jpg" alt="Dalmeny from the air"
-        class="w-full rounded-2xl shadow-lg object-cover cursor-pointer"
-        style="max-height:480px;"
-        onclick="openLightbox(this.src, this.alt)">
-      <figcaption class="mt-3 text-sm italic" style="color:#5a6a6d;">
-        Dalmeny from the air. The house sits a single street back from the duck pond and a 400 m stroll from Yabbarra Beach.
-      </figcaption>
-    </figure>
-
     <!-- 2x2 doorstep grid -->
     <h3 class="text-xl font-serif font-semibold mb-6" style="color:#0E3B43;">What is on your doorstep</h3>
     <div class="grid sm:grid-cols-2 gap-4 mb-12">
-      <div class="rounded-2xl p-6 shadow-sm" style="background:#0E3B43;">
-        <div class="text-xs font-semibold tracking-widest mb-2" style="color:#C66B3D;">400 M</div>
-        <h4 class="text-lg font-serif font-semibold text-white mb-2">The beach.</h4>
-        <p class="text-sm text-white/75 leading-relaxed">Yabbarra Beach is a five-minute walk down the road. Brou Beach and Mummaga Lake are within easy reach. Protected swimming, dune walks, sand to spare.</p>
+      <div class="rounded-2xl shadow-sm overflow-hidden" style="background:#0E3B43;">
+        <img src="assets/400%20M%20The%20beach..jpeg" alt="Yabbarra Beach" class="w-full object-cover" style="height:180px;">
+        <div class="p-6">
+          <div class="text-xs font-semibold tracking-widest mb-2" style="color:#C66B3D;">400 M</div>
+          <h4 class="text-lg font-serif font-semibold text-white mb-2">The beach.</h4>
+          <p class="text-sm text-white/75 leading-relaxed">Yabbarra Beach is a five-minute walk. Protected swimming, golden sand and dune walks. Brou Beach and Mummaga Lake are just as close. Head north past Mummaga Lake and you can walk all the way to Potato Point.</p>
+        </div>
       </div>
-      <div class="rounded-2xl p-6 shadow-sm" style="background:#0E3B43;">
-        <div class="text-xs font-semibold tracking-widest mb-2" style="color:#C66B3D;">16 KM RETURN</div>
-        <h4 class="text-lg font-serif font-semibold text-white mb-2">Cycleway to Narooma.</h4>
-        <p class="text-sm text-white/75 leading-relaxed">A community-built coastal cycleway runs all the way to Narooma. Rated easy. Coffee at the Quarterdeck is the natural turnaround point.</p>
+      <div class="rounded-2xl shadow-sm overflow-hidden" style="background:#0E3B43;">
+        <img src="assets/16%20KM%20RETURNCycleway%20to%20Narooma..webp" alt="Cycleway to Narooma" class="w-full object-cover" style="height:180px;">
+        <div class="p-6">
+          <div class="text-xs font-semibold tracking-widest mb-2" style="color:#C66B3D;">21 KM RETURN</div>
+          <h4 class="text-lg font-serif font-semibold text-white mb-2">Cycleway to Narooma.</h4>
+          <p class="text-sm text-white/75 leading-relaxed">A shared coastal path along Wagonga Inlet and Mummaga Lake, all the way to Narooma. Flat and easy. The Mill Bay boardwalk at the southern end is worth a stop; seals and seabirds are regulars. E-bike hire available from Southbound Escapes in Narooma.</p>
+        </div>
       </div>
-      <div class="rounded-2xl p-6 shadow-sm" style="background:#0E3B43;">
-        <div class="text-xs font-semibold tracking-widest mb-2" style="color:#C66B3D;">VILLAGE</div>
-        <h4 class="text-lg font-serif font-semibold text-white mb-2">The basics.</h4>
-        <p class="text-sm text-white/75 leading-relaxed">IGA, fuel, cafe, post. Everything you actually need; no driving for milk.</p>
+      <div class="rounded-2xl shadow-sm overflow-hidden" style="background:#0E3B43;">
+        <img src="assets/Village%20The%20basics.jpeg" alt="Dalmeny village" class="w-full object-cover" style="height:180px;">
+        <div class="p-6">
+          <div class="text-xs font-semibold tracking-widest mb-2" style="color:#C66B3D;">VILLAGE</div>
+          <h4 class="text-lg font-serif font-semibold text-white mb-2">Eat, drink, done.</h4>
+          <p class="text-sm text-white/75 leading-relaxed">IGA, fuel, post and a progressive food scene for a town of 1,500. Sea Salt cafe for breakfast. Big Niles Brewing Co for a cold one; their Harry's Pale Ale is award-winning. Everything you need; no driving for milk.</p>
+        </div>
       </div>
-      <div class="rounded-2xl p-6 shadow-sm" style="background:#0E3B43;">
-        <div class="text-xs font-semibold tracking-widest mb-2" style="color:#C66B3D;">LOCAL</div>
-        <h4 class="text-lg font-serif font-semibold text-white mb-2">Community.</h4>
-        <p class="text-sm text-white/75 leading-relaxed">Bowls club, fishing club, the campground in the middle of town, and a steady rhythm to the year.</p>
+      <div class="rounded-2xl shadow-sm overflow-hidden" style="background:#0E3B43;">
+        <img src="assets/Community.jpeg" alt="Dalmeny community" class="w-full object-cover" style="height:180px;">
+        <div class="p-6">
+          <div class="text-xs font-semibold tracking-widest mb-2" style="color:#C66B3D;">LOCAL</div>
+          <h4 class="text-lg font-serif font-semibold text-white mb-2">Community.</h4>
+          <p class="text-sm text-white/75 leading-relaxed">Bowls club, fishing club, the campground in the middle of town. Apex Park and the boat ramp are a regular hangout. A steady rhythm to the year, and locals who actually know your name.</p>
+        </div>
       </div>
     </div>
 
@@ -305,8 +306,11 @@
 
     <!-- Narooma -->
     <h3 class="text-xl font-serif font-semibold mb-4" style="color:#0E3B43;">Seven kilometres up the road: Narooma &amp; Barunguba</h3>
+    <p class="text-base leading-relaxed mb-4">
+      Narooma is the next town up. Wagonga Inlet, the famous Australia Rock, the golf course with a hole right on the water, and a working harbour that runs charters out to Barunguba (Montague Island). A 20-minute boat ride gets you to one of the most extraordinary marine spots in the country.
+    </p>
     <p class="text-base leading-relaxed mb-6">
-      Narooma is the next town up. Wagonga Inlet, the famous Australia Rock, the golf course with a hole right on the water, and a working harbour that runs charters out to Barunguba (Montague Island). A 20-minute boat ride from Narooma's harbour gets you to one of the most extraordinary marine spots in the country.
+      Dalmeny sits at the northern end of Tourist Drive 5, a scenic route that winds south through headlands with 180-degree ocean views and prime whale-watching vantage points during the spring migration. Drive it slowly; there are picnic spots, lookouts and stretches of coastline that earn a proper stop.
     </p>
     <ul class="space-y-4 mb-12">
       <li class="flex gap-3 text-sm leading-relaxed">
