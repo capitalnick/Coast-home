@@ -307,6 +307,39 @@
     <!-- Dots -->
     <div id="c-dots" class="flex gap-1.5 justify-center flex-wrap mb-12 no-print"></div>
 
+    <!-- Video carousel -->
+    <h3 class="text-xl font-serif font-semibold mb-2" style="color:#0E3B43;">Walk through the property.</h3>
+    <p class="text-sm leading-relaxed mb-4" style="color:#5a6a6d;">Six clips from a recent visit. Press play, or use the arrows to step through each room.</p>
+
+    <div class="rounded-2xl overflow-hidden shadow-lg mb-3" id="vid-carousel" style="background:#0a2b31;">
+      <!-- 16:9 aspect ratio -->
+      <div style="position:relative; padding-top:56.25%;">
+        <iframe id="vid-frame"
+          src="https://www.youtube.com/embed/l9DfYF-0Xgg?rel=0&modestbranding=1"
+          style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+          allowfullscreen>
+        </iframe>
+      </div>
+      <!-- Caption + nav -->
+      <div class="px-5 py-3 flex items-center justify-between gap-4" style="background:rgba(10,43,49,0.9);">
+        <p id="vid-cap" class="text-white/80 text-sm leading-snug flex-1">Clip 1 of 6</p>
+        <div class="flex gap-2 flex-shrink-0">
+          <button onclick="vNav(-1)"
+            class="w-9 h-9 rounded-full flex items-center justify-center text-white font-bold text-lg transition-all"
+            style="background:rgba(255,255,255,0.12);"
+            onmouseover="this.style.background='#C66B3D'" onmouseout="this.style.background='rgba(255,255,255,0.12)'">&#8249;</button>
+          <button onclick="vNav(1)"
+            class="w-9 h-9 rounded-full flex items-center justify-center text-white font-bold text-lg transition-all"
+            style="background:rgba(255,255,255,0.12);"
+            onmouseover="this.style.background='#C66B3D'" onmouseout="this.style.background='rgba(255,255,255,0.12)'">&#8250;</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Video dots -->
+    <div id="v-dots" class="flex gap-1.5 justify-center flex-wrap mb-12 no-print"></div>
+
     <!-- Listing Details -->
     <div class="rounded-2xl p-6 mb-4 shadow-sm" style="background:#e8dcc8;">
       <h3 class="text-lg font-serif font-semibold mb-4" style="color:#0E3B43;">Listing details</h3>
@@ -998,7 +1031,47 @@
   document.addEventListener('DOMContentLoaded', function() {
     buildDots();
     cShow(0);
+    buildVDots();
   });
+
+  // ===== VIDEO CAROUSEL =====
+  var VSLIDES = [
+    { id: 'l9DfYF-0Xgg', cap: 'Clip 1 of 6' },
+    { id: 'fdROjUD_L_A', cap: 'Clip 2 of 6' },
+    { id: '-UyEIQCwZIk', cap: 'Clip 3 of 6' },
+    { id: 'UdSPYzgJOBY', cap: 'Clip 4 of 6' },
+    { id: 'r1_BNjr-DEE', cap: 'Clip 5 of 6' },
+    { id: '7sI9bZYDL8Y', cap: 'Clip 6 of 6' }
+  ];
+  var vIdx = 0;
+
+  function vShow(idx) {
+    vIdx = idx;
+    var frame = document.getElementById('vid-frame');
+    // Reassigning src stops the current video before loading the next
+    frame.src = 'https://www.youtube.com/embed/' + VSLIDES[idx].id + '?rel=0&modestbranding=1';
+    document.getElementById('vid-cap').textContent = VSLIDES[idx].cap;
+    document.querySelectorAll('.v-dot').forEach(function(d, i) {
+      d.style.background = i === idx ? '#C66B3D' : 'rgba(255,255,255,0.35)';
+      d.style.transform  = i === idx ? 'scale(1.35)' : 'scale(1)';
+    });
+  }
+
+  function vNav(dir) {
+    vShow((vIdx + dir + VSLIDES.length) % VSLIDES.length);
+  }
+
+  function buildVDots() {
+    var cont = document.getElementById('v-dots');
+    VSLIDES.forEach(function(_, i) {
+      var b = document.createElement('button');
+      b.className = 'c-dot v-dot';
+      b.style.background = i === 0 ? '#C66B3D' : 'rgba(14,59,67,0.3)';
+      b.style.transform  = i === 0 ? 'scale(1.35)' : 'scale(1)';
+      b.onclick = function() { vShow(i); };
+      cont.appendChild(b);
+    });
+  }
 
   // Init
   calcA();
